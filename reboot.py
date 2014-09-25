@@ -20,12 +20,13 @@ class Reboot(Sanji):
     def init(self, bundle_env=os.getenv('BUNDLE_ENV', 'debug')):
         self.set_to_not_ready = TURN_OFF_READYLED
         self.call_reboot = 'reboot'
-        if bundle_env == 'debug':
+        if bundle_env == 'debug': # pragma: no cover
             self.set_to_not_ready = 'echo "%s"' % TURN_OFF_READYLED
             self.call_reboot = 'echo reboot'
 
     @Route(methods='put', resource='/system/reboot')
     def put(self, message, response):
+        # TODO: status code should be added into error message
         if not hasattr(message, 'data') or 'enable' not in message.data:
             return response(code=400, data={'message': 'Invalid Input.'})
 
