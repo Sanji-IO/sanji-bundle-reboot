@@ -42,6 +42,7 @@ class Reboot(Sanji):
         time.sleep(5)
         logger.debug('Turn off the ready led')
         subprocess.call(self.set_to_not_ready, shell=True)
+        # TODO: this should be a notice log for web
         logger.info('Rebooting...')
         subprocess.call(self.call_reboot, shell=True)
 
