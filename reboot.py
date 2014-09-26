@@ -15,12 +15,13 @@ TURN_OFF_READYLED = '/etc/init.d/showreadyled stop'
 # TODO: logger should be defined in sanji package?
 logger = logging.getLogger()
 
+
 class Reboot(Sanji):
 
     def init(self, bundle_env=os.getenv('BUNDLE_ENV', 'debug')):
         self.set_to_not_ready = TURN_OFF_READYLED
         self.call_reboot = 'reboot'
-        if bundle_env == 'debug': # pragma: no cover
+        if bundle_env == 'debug':  # pragma: no cover
             self.set_to_not_ready = 'echo "%s"' % TURN_OFF_READYLED
             self.call_reboot = 'echo reboot'
 

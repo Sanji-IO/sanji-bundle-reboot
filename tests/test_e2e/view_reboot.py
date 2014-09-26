@@ -10,6 +10,7 @@ from sanji.connection.mqtt import Mqtt
 
 REQ_RESOURCE = '/system/reboot'
 
+
 class View(Sanji):
 
     # This function will be executed after registered.

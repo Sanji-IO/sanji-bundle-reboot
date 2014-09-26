@@ -9,7 +9,6 @@ import unittest
 
 from sanji.connection.mockup import Mockup
 from sanji.message import Message
-from sanji.message import MessageType
 
 try:
     sys.path.append(os.path.dirname(os.path.realpath(__file__)) + '/../')
