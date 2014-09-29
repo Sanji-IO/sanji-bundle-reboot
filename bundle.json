@@ -1,0 +1,22 @@
+{
+  "name": "reboot",
+  "version": "1.0",
+  "author": "Aeluin Chen",
+  "email": "aeluin.chen@moxa.com",
+  "description": "Handle the reboot request",
+  "license": "MOXA",
+  "main": "reboot.py",
+  "argument": "",
+  "priority": 20,
+  "hook": [],
+  "dependencies": {},
+  "repository": "",
+  "role": "model",
+  "ttl": 10,
+  "resources": [
+    {
+      "methods": ["put"],
+      "resource": "/system/reboot"
+    }
+  ]
+}
