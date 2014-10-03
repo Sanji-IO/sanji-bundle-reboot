@@ -17,10 +17,14 @@ logger = logging.getLogger()
 
 
 class Reboot(Sanji):
-
-    def init(self, bundle_env=os.getenv("BUNDLE_ENV", "debug")):
+    def init(self, *args, **kwargs):
         self.set_to_not_ready = TURN_OFF_READYLED
         self.call_reboot = "reboot"
+        try:
+            bundle_env = kwargs["bundle_env"]
+        except KeyError:
+            bundle_env = os.getenv("BUNDLE_ENV", "debug")
+
         if bundle_env == "debug":  # pragma: no cover
             self.set_to_not_ready = "echo '%s'" % TURN_OFF_READYLED
             self.call_reboot = "echo reboot"

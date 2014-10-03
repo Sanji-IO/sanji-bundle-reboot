@@ -72,6 +72,9 @@ class TestRebootClass(unittest.TestCase):
         message = Message(test_msg)
         self.reboot.put(message, response=resp4, test=True)
 
+    def test_reboot(self):
+        # TODO
+        pass
 
 if __name__ == "__main__":
     FORMAT = "%(asctime)s - %(levelname)s - %(lineno)s - %(message)s"
