@@ -29,6 +29,15 @@ class Reboot(Sanji):
             self.set_to_not_ready = "echo '%s'" % TURN_OFF_READYLED
             self.call_reboot = "echo reboot"
 
+    def reboot(self):
+        # Waiting for web to log out
+        time.sleep(5)
+        logger.debug("Turn off the ready led.")
+        subprocess.call(self.set_to_not_ready, shell=True)
+        # TODO: this should be a notice log for web
+        logger.info("Rebooting...")
+        subprocess.call(self.call_reboot, shell=True)
+
     @Route(methods="put", resource="/system/reboot")
     def put(self, message, response):
         # TODO: status code should be added into error message
@@ -41,15 +50,6 @@ class Reboot(Sanji):
             self.reboot()
             return
         return response()
-
-    def reboot(self):
-        # Waiting for web to log out
-        time.sleep(5)
-        logger.debug("Turn off the ready led.")
-        subprocess.call(self.set_to_not_ready, shell=True)
-        # TODO: this should be a notice log for web
-        logger.info("Rebooting...")
-        subprocess.call(self.call_reboot, shell=True)
 
 
 if __name__ == "__main__":

@@ -27,54 +27,93 @@ dirpath = os.path.dirname(os.path.realpath(__file__))
 class TestRebootClass(unittest.TestCase):
 
     def setUp(self):
-        self.reboot = Reboot(connection=Mockup())
+        self.bundle = Reboot(connection=Mockup())
 
     def tearDown(self):
-        self.reboot.stop()
-        self.reboot = None
+        self.bundle.stop()
+        self.bundle = None
 
-    def test_init(self):
+    def test__init(self):
+        """
+        init: do nothing
+        """
         pass
 
-    def test_put(self):
-        test_msg = {
+    def test__reboot(self):
+        """
+        reboot: TODO
+        """
+        pass
+
+    def test__put__no_data(self):
+        """
+        put (/system/reboot)
+        """
+        msg = {
             "id": 12345,
             "method": "put",
             "resource": "/system/reboot"
         }
 
-        # case 1: no data attribute
-        def resp1(code=200, data=None):
+        def resp(code=200, data=None):
             self.assertEqual(400, code)
             self.assertEqual(data, {"message": "Invalid Input."})
-        message = Message(test_msg)
-        self.reboot.put(message, response=resp1, test=True)
+        message = Message(msg)
+        self.bundle.put(message, response=resp, test=True)
 
-        # case 2: data dict is empty or no enable exist
-        def resp2(code=200, data=None):
+    def test__put__empty_data(self):
+        """
+        put (/system/reboot): data attribute is empty
+        """
+        msg = {
+            "id": 12345,
+            "method": "put",
+            "resource": "/system/reboot"
+        }
+        msg["data"] = dict()
+
+        def resp(code=200, data=None):
             self.assertEqual(400, code)
             self.assertEqual(data, {"message": "Invalid Input."})
-        test_msg["data"] = dict()
-        message = Message(test_msg)
-        self.reboot.put(message, response=resp2, test=True)
+        message = Message(msg)
+        self.bundle.put(message, response=resp, test=True)
 
-        # case 3: disable (do nothing)
-        def resp3(code=200, data=None):
+    def test__put__disable(self):
+        """
+        put (/system/reboot): disable, do nothing
+        """
+        msg = {
+            "id": 12345,
+            "method": "put",
+            "resource": "/system/reboot",
+            "data": {
+                "enable": 0
+            }
+        }
+
+        def resp(code=200, data=None):
             self.assertEqual(200, code)
-        test_msg["data"]["enable"] = 0
-        message = Message(test_msg)
-        self.reboot.put(message, response=resp3, test=True)
+        message = Message(msg)
+        self.bundle.put(message, response=resp, test=True)
 
-        # case 4: enable
-        def resp4(code=200, data=None):
+    def test__put(self):
+        """
+        put (/system/reboot): reboot
+        """
+        msg = {
+            "id": 12345,
+            "method": "put",
+            "resource": "/system/reboot",
+            "data": {
+                "enable": 1
+            }
+        }
+
+        def resp(code=200, data=None):
             self.assertEqual(200, code)
-        test_msg["data"]["enable"] = 1
-        message = Message(test_msg)
-        self.reboot.put(message, response=resp4, test=True)
+        message = Message(msg)
+        self.bundle.put(message, response=resp, test=True)
 
-    def test_reboot(self):
-        # TODO
-        pass
 
 if __name__ == "__main__":
     FORMAT = "%(asctime)s - %(levelname)s - %(lineno)s - %(message)s"
