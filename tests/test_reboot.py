@@ -7,6 +7,8 @@ import sys
 import logging
 import unittest
 
+from mock import MagicMock
+
 from sanji.connection.mockup import Mockup
 from sanji.message import Message
 
@@ -28,6 +30,7 @@ class TestRebootClass(unittest.TestCase):
 
     def setUp(self):
         self.bundle = Reboot(connection=Mockup())
+        self.bundle.publish = MagicMock()
 
     def tearDown(self):
         self.bundle.stop()
@@ -113,6 +116,13 @@ class TestRebootClass(unittest.TestCase):
             self.assertEqual(200, code)
         message = Message(msg)
         self.bundle.put(message, response=resp, test=True)
+
+    def test_run(self):
+        """
+        run
+        """
+        # TODO: check run
+        self.bundle.run()
 
 
 if __name__ == "__main__":
