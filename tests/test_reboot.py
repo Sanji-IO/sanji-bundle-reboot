@@ -6,6 +6,7 @@ import os
 import sys
 import logging
 import unittest
+import sh
 
 from mock import MagicMock
 
@@ -41,6 +42,30 @@ class TestRebootClass(unittest.TestCase):
         init: do nothing
         """
         pass
+
+    def test__run(self):
+        """
+        run: normal
+        """
+        self.bundle.run()
+
+    def test__run__reboot_success(self):
+        """
+        run: reboot success
+        """
+        fname = "%s/../rebooting" % dirpath
+        sh.touch(fname)
+        self.bundle.run()
+        self.assertEqual(False, os.path.isfile(fname))
+
+    def test__run__reboot_failed(self):
+        """
+        run: reboot failed
+        """
+        fname = "%s/../reboot-failed" % dirpath
+        sh.touch(fname)
+        self.bundle.run()
+        self.assertEqual(False, os.path.isfile(fname))
 
     def test__reboot(self):
         """
@@ -116,13 +141,6 @@ class TestRebootClass(unittest.TestCase):
             self.assertEqual(200, code)
         message = Message(msg)
         self.bundle.put(message, response=resp, test=True)
-
-    def test_run(self):
-        """
-        run
-        """
-        # TODO: check run
-        self.bundle.run()
 
 
 if __name__ == "__main__":

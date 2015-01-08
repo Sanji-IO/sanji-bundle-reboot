@@ -27,12 +27,10 @@ class Reboot(Sanji):
             self.bundle_env = kwargs["bundle_env"]
         except KeyError:
             self.bundle_env = os.getenv("BUNDLE_ENV", "debug")
-
-    def run(self):
-        if self.bundle_env == "debug":  # pragma: no cover
             self.set_to_not_ready = "echo '%s'" % TURN_OFF_READYLED
             self.call_reboot = "echo reboot"
 
+    def run(self):
         try:
             output = sh.test("-e", "%s/reboot-failed" % self.path_root)
             if output.exit_code == 0:
