@@ -13,8 +13,7 @@ from sanji.connection.mqtt import Mqtt
 
 TURN_OFF_READYLED = "/etc/init.d/showreadyled stop"
 
-# TODO: logger should be defined in sanji package?
-logger = logging.getLogger()
+_logger = logging.getLogger("sanji.reboot")
 
 
 class Reboot(Sanji):
@@ -44,7 +43,7 @@ class Reboot(Sanji):
         try:
             output = sh.test("-e", "%s/rebooting" % self.path_root)
             if output.exit_code == 0:
-                logger.info("Reboot success!")
+                _logger.info("Reboot success!")
                 self.publish.event.put(
                     "/system/reboot",
                     data={"code": "REBOOT_SUCCESS", "type": "event"})
@@ -63,12 +62,12 @@ class Reboot(Sanji):
 
         # Waiting for web to log out
         time.sleep(5)
-        logger.debug("Turn off the ready led.")
+        _logger.debug("Turn off the ready led.")
         subprocess.call(self.set_to_not_ready, shell=True)
-        logger.info("Rebooting...")
+        _logger.info("Rebooting...")
         returncode = subprocess.call(self.call_reboot, shell=True)
         if returncode != 0:
-            logger.info("Reboot failed!")
+            _logger.info("Reboot failed!")
             sh.touch("%s/reboot-failed" % self.path_root)
             sh.sync()
 
@@ -89,7 +88,7 @@ class Reboot(Sanji):
 if __name__ == "__main__":
     FORMAT = "%(asctime)s - %(levelname)s - %(lineno)s - %(message)s"
     logging.basicConfig(level=0, format=FORMAT)
-    logger = logging.getLogger("Reboot")
+    _logger = logging.getLogger("Reboot")
 
     reboot = Reboot(connection=Mqtt())
     reboot.start()

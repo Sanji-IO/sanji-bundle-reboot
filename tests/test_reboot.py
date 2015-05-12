@@ -146,5 +146,5 @@ class TestRebootClass(unittest.TestCase):
 if __name__ == "__main__":
     FORMAT = "%(asctime)s - %(levelname)s - %(lineno)s - %(message)s"
     logging.basicConfig(level=20, format=FORMAT)
-    logger = logging.getLogger("Reboot Test")
+    _logger = logging.getLogger("Reboot Test")
     unittest.main()
