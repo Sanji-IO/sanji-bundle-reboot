@@ -62,7 +62,7 @@ class Reboot(Sanji):
         sh.sync()
 
         # Waiting for web to log out
-        time.sleep(5)
+        # time.sleep(5)
         logger.debug("Turn off the ready led.")
         subprocess.call(self.set_to_not_ready, shell=True)
         logger.info("Rebooting...")
