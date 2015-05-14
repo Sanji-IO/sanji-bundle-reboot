@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 import os
-import time
+# import time
 import logging
 import subprocess
 import sh
@@ -27,6 +27,8 @@ class Reboot(Sanji):
             self.bundle_env = kwargs["bundle_env"]
         except KeyError:
             self.bundle_env = os.getenv("BUNDLE_ENV", "debug")
+
+        if self.bundle_env == "debug":
             self.set_to_not_ready = "echo '%s'" % TURN_OFF_READYLED
             self.call_reboot = "echo reboot"
 
