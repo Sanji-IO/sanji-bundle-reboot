@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 import os
-import time
+# import time
 import logging
 import subprocess
 import sh
@@ -26,6 +26,8 @@ class Reboot(Sanji):
             self.bundle_env = kwargs["bundle_env"]
         except KeyError:
             self.bundle_env = os.getenv("BUNDLE_ENV", "debug")
+
+        if self.bundle_env == "debug":
             self.set_to_not_ready = "echo '%s'" % TURN_OFF_READYLED
             self.call_reboot = "echo reboot"
 
@@ -61,7 +63,7 @@ class Reboot(Sanji):
         sh.sync()
 
         # Waiting for web to log out
-        time.sleep(5)
+        # time.sleep(5)
         _logger.debug("Turn off the ready led.")
         subprocess.call(self.set_to_not_ready, shell=True)
         _logger.info("Rebooting...")
