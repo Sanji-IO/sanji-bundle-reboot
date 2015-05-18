@@ -64,7 +64,7 @@ class Reboot(Sanji):
 
         # Waiting for web to log out
         # time.sleep(5)
-        logger.debug("Turn off the ready led.")
+        _logger.debug("Turn off the ready led.")
         subprocess.call(self.set_to_not_ready, shell=True)
         _logger.info("Rebooting...")
         returncode = subprocess.call(self.call_reboot, shell=True)
